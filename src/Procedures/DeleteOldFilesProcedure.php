@@ -11,18 +11,18 @@ class DeleteOldFilesProcedure extends Procedure
 {
 
     /**
-     * @param string $sourceType
+     * @param string $storageType
      * @param string $directoryPath
      * @param DateTime $olderThan
      * @throws \BackupManager\Filesystems\FilesystemTypeNotSupported
      */
-    public function run($sourceType, $directoryPath, DateTime $olderThan)
+    public function run($storageType, $directoryPath, DateTime $olderThan)
     {
         $sequence = new Sequence;
 
         // delete old files which are not modified after specified time
         $sequence->add(new Tasks\Storage\DeleteOldFiles(
-            $this->filesystems->get($sourceType),
+            $this->filesystems->get($storageType),
             $directoryPath,
             $olderThan
         ));
