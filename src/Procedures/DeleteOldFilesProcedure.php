@@ -2,6 +2,7 @@
 
 use BackupManager\Tasks;
 use DateTime;
+use League\Flysystem\Plugin\ListWith;
 
 /**
  * Class DeleteOldFilesProcedure
@@ -20,9 +21,12 @@ class DeleteOldFilesProcedure extends Procedure
     {
         $sequence = new Sequence;
 
+        $fileSystem = $this->filesystems->get($storageType);
+        $fileSystem->addPlugin(new ListWith());
+
         // delete old files which are not modified after specified time
         $sequence->add(new Tasks\Storage\DeleteOldFiles(
-            $this->filesystems->get($storageType),
+            $fileSystem,
             $directoryPath,
             $olderThan
         ));
