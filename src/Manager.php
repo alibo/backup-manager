@@ -57,6 +57,18 @@ class Manager {
     }
 
     /**
+     * @return Procedures\DeleteOldFilesProcedure
+     */
+    public function deleteOldFiles() {
+        return new Procedures\DeleteOldFilesProcedure(
+            $this->filesystems,
+            $this->databases,
+            $this->compressors,
+            $this->getShellProcessor()
+        );
+    }
+
+    /**
      * @return ShellProcessing\ShellProcessor
      */
     protected function getShellProcessor() {
